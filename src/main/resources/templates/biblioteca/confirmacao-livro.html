@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmação</title>
+</head>
+<body>
+<div th:replace="~{fragments/layout :: header}"></div>
+
+<h1>Livro Cadastrado com Sucesso!</h1>
+
+<p>Título: <span th:text="${livro.titulo}"></span></p>
+<p>Autor: <span th:text="${livro.autor}"></span></p>
+<p>ISBN: <span th:text="${livro.isbn}"></span></p>
+<p>Ano de Publicação: <span th:text="${livro.anoPublicacao}"></span></p>
+
+<a th:href="@{/livros}">Voltar para o cadastro</a>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>
