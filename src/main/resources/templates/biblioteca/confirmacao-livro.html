@@ -3,20 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confirmação</title>
+    <title>Confirmação de Livro</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
 <div th:replace="~{fragments/layout :: header}"></div>
 
-<h1>Livro Cadastrado com Sucesso!</h1>
+<main>
+    <h1>Livro Cadastrado com Sucesso!</h1>
 
-<p>Título: <span th:text="${livro.titulo}"></span></p>
-<p>Autor: <span th:text="${livro.autor}"></span></p>
-<p>ISBN: <span th:text="${livro.isbn}"></span></p>
-<p>Ano de Publicação: <span th:text="${livro.anoPublicacao}"></span></p>
+    <p><strong>Título:</strong> <span th:text="${livro.titulo}"></span></p>
+    <p><strong>Autor:</strong> <span th:text="${livro.autor}"></span></p>
+    <p><strong>ISBN:</strong> <span th:text="${livro.isbn}"></span></p>
+    <p><strong>Ano de Publicação:</strong> <span th:text="${livro.anoPublicacao}"></span></p>
 
-<a th:href="@{/livros}">Voltar para o cadastro</a>
+    <a th:href="@{/livros}">Voltar para o cadastro de livros</a>
+</main>
 
 <div th:replace="~{fragments/layout :: footer}"></div>
+<script th:src="@{/js/script.js}"></script>
 </body>
 </html>

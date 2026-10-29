@@ -4,17 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Confirmação de Autor</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
 <div th:replace="~{fragments/layout :: header}"></div>
 
-<h1>Autor Cadastrado com Sucesso!</h1>
+<main>
+    <h1>Autor Cadastrado com Sucesso!</h1>
 
-<p>Nome: <span th:text="${autor.nome}"></span></p>
-<p>Nacionalidade: <span th:text="${autor.nacionalidade}"></span></p>
+    <p><strong>Nome:</strong> <span th:text="${autor.nome}"></span></p>
+    <p><strong>Nacionalidade:</strong> <span th:text="${autor.nacionalidade}"></span></p>
 
-<a th:href="@{/autores}">Voltar para o cadastro</a>
+    <a th:href="@{/autores}">Voltar para o cadastro de autores</a>
+</main>
 
 <div th:replace="~{fragments/layout :: footer}"></div>
+<script th:src="@{/js/script.js}"></script>
 </body>
 </html>

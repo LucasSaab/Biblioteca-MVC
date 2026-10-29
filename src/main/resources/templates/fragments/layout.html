@@ -2,37 +2,26 @@
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <body>
 
-<!-- HEADER -->
-<header th:fragment="header">
-    <style>
-        .navbar { display: flex; align-items: center; gap: 24px; background: #222; padding: 12px 20px; }
-        .navbar .brand { color: #fff; font-weight: bold; text-decoration: none; }
-        .navbar ul { display: flex; gap: 16px; list-style: none; margin: 0; padding: 0; }
-        .navbar a { color: #ddd; text-decoration: none; }
-        .navbar a:hover { color: #fff; }
-    </style>
+<div th:fragment="header">
+    <header class="app-header">
+        <div class="header-container">
+            <a th:href="@{/inicio}" class="header-logo">
+                <span>📚</span> Biblioteca de Lupinópolis
+            </a>
+            <nav class="header-nav">
+                <a th:href="@{/inicio}" class="nav-link">Início</a>
+                <a th:href="@{/livros}" class="nav-link">Livros</a>
+                <a th:href="@{/autores}" class="nav-link">Autores</a>
+            </nav>
+        </div>
+    </header>
+</div>
 
-    <nav class="navbar">
-        <a class="brand" th:href="@{/inicio}">Biblioteca de Lupionópolis</a>
-        <ul>
-            <li><a th:href="@{/livros}">Livros</a></li>
-            <li><a th:href="@{/autores}">Autores</a></li>
-            <li><a th:href="@{/categoria}">Categorias</a></li>
-            <li><a th:href="@{/usuario}">Usuários</a></li>
-            <li><a th:href="@{/emprestimo}">Empréstimos</a></li>
-        </ul>
-    </nav>
-</header>
-
-<!-- FOOTER -->
-<footer th:fragment="footer" class="rodape">
-    <style>
-        body { min-height: 100vh; margin: 0; display: flex; flex-direction: column; }
-        .rodape { margin-top: auto; background: #222; color: #ddd; text-align: center; padding: 12px 20px; }
-    </style>
-
-    <span th:text="'Sistema de biblioteca © ' + ${#dates.year(#dates.createNow())}"></span>
-</footer>
+<div th:fragment="footer">
+    <footer>
+        <p>Sistema de Biblioteca &copy; 2026</p>
+    </footer>
+</div>
 
 </body>
 </html>

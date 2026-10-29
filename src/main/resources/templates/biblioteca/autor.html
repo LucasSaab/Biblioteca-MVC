@@ -3,27 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Livros</title>
+    <title>Cadastrar Autor</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
 <div th:replace="~{fragments/layout :: header}"></div>
 
-<h1 th:text="Livros"></h1>
-<form th:action="@{/autores}" th:object="${autor}" method="post">
-    <p>
-        <label>Nome do autor:</label>
-        <input type="text" th:field="*{nome}" />
-    </p>
-    <p>
-        <label>Nacionalidade do autor:</label>
-        <input type="text" th:field="*{nacionalidade}" />
-    </p>
-    <p>
-        <label>Livros publicados:</label>
-        <input type="text" th:field="*{livrosPublicados}" />
-    </p>
-    <button type="submit">Cadastrar</button>
-</form>
+<main>
+    <h1>Cadastrar Autor</h1>
+    <form th:action="@{/autores}" th:object="${autor}" method="post">
+        <p>
+            <label>Nome do autor:</label>
+            <input type="text" th:field="*{nome}" required />
+        </p>
+        <p>
+            <label>Nacionalidade do autor:</label>
+            <input type="text" th:field="*{nacionalidade}" required />
+        </p>
+        <p>
+            <label>Livros publicados:</label>
+            <input type="text" th:field="*{livrosPublicados}" />
+        </p>
+        <button type="submit">Cadastrar</button>
+    </form>
+</main>
+
 <div th:replace="~{fragments/layout :: footer}"></div>
+<script th:src="@{/js/script.js}"></script>
 </body>
 </html>
