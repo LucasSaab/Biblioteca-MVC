@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Livros</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: header}"></div>
+
+<main>
+    <h1>Lista de Livros Cadastrados</h1>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Título</th>
+            <th>Autor</th>
+            <th>ISBN</th>
+            <th>Ano de Publicação</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Itera sobre a lista de livros vinda do banco via JPA -->
+        <tr th:each="l : ${livros}">
+            <td th:text="${l.id}">1</td>
+            <td th:text="${l.titulo}">Título Exemplo</td>
+            <td th:text="${l.autor}">Autor Exemplo</td>
+            <td th:text="${l.isbn}">ISBN Exemplo</td>
+            <td th:text="${l.anoPublicacao}">2024</td>
+            <td>
+                <!-- Passa o ID da entidade JPA na URL -->
+                <a th:href="@{/livros/excluir/{id}(id=${l.id})}">Excluir</a>
+            </td>
+        </tr>
+        <!-- Exibido apenas se a lista de livros estiver vazia -->
+        <tr th:if="${#lists.isEmpty(livros)}">
+            <td colspan="6">Nenhum livro cadastrado até o momento.</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <br>
+    <a th:href="@{/livros}">Voltar para o cadastro de livros</a>
+</main>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+<script th:src="@{/js/script.js}"></script>
+</body>
+</html>

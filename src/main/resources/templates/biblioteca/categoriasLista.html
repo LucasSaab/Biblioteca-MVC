@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Categorias</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: header}"></div>
+
+<main>
+    <h1>Lista de Categorias Cadastradas</h1>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Itera sobre a lista de categorias vinda do banco via JPA -->
+        <tr th:each="c : ${categorias}">
+            <td th:text="${c.id}">1</td>
+            <td th:text="${c.nome}">Ficção Científica</td>
+            <td>
+                <!-- Passa o ID da entidade JPA na URL -->
+                <a th:href="@{/categorias/excluir/{id}(id=${c.id})}">Excluir</a>
+            </td>
+        </tr>
+        <!-- Exibido apenas se a lista de categorias estiver vazia -->
+        <tr th:if="${#lists.isEmpty(categorias)}">
+            <td colspan="3">Nenhuma categoria cadastrada até o momento.</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <br>
+    <a th:href="@{/categorias}">Voltar para o cadastro de categorias</a>
+</main>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+<script th:src="@{/js/script.js}"></script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Categoria</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: header}"></div>
+
+<main>
+    <h1>Cadastrar Categoria</h1>
+    <form th:action="@{/categorias}" th:object="${categorias}" method="post">
+        <p>
+            <label>Nome:</label>
+            <input type="text" th:field="*{nome}" required />
+        </p>
+        <button type="submit">Cadastrar</button>
+    </form>
+</main>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+<script th:src="@{/js/script.js}"></script>
+</body>
+</html>
