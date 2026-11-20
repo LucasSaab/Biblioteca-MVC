@@ -1,24 +1,39 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confirmação de Autor</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-</head>
+<head th:replace="~{biblioteca/fragmentos :: cabecalho('Autores')}"></head>
 <body>
-<div th:replace="~{fragments/layout :: header}"></div>
-
+<nav th:replace="~{biblioteca/fragmentos :: menu}"></nav>
 <main>
-    <h1>Autor Cadastrado com Sucesso!</h1>
+    <h1>Autores</h1>
+    <a class="btn" th:href="@{/autores}">Novo autor</a>
 
-    <p><strong>Nome:</strong> <span th:text="${autor.nome}"></span></p>
-    <p><strong>Nacionalidade:</strong> <span th:text="${autor.nacionalidade}"></span></p>
+    <p class="ok" th:if="${mensagem}" th:text="${mensagem}"></p>
+    <p class="erro" th:if="${erro}" th:text="${erro}"></p>
 
-    <a th:href="@{/autores}">Voltar para o cadastro de autores</a>
+    <p class="vazio" th:if="${#lists.isEmpty(autores)}">Nenhum autor cadastrado.</p>
+
+    <table th:unless="${#lists.isEmpty(autores)}">
+        <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Nacionalidade</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="a : ${autores}">
+            <td th:text="${a.nome}"></td>
+            <td th:text="${a.nacionalidade}"></td>
+            <td>
+                <a class="btn btn-sec" th:href="@{/autores/editar/{id}(id=${a.id})}">Editar</a>
+                <form th:action="@{/autores/excluir/{id}(id=${a.id})}" method="post"
+                      onsubmit="return confirm('Excluir este autor?');">
+                    <button type="submit" class="btn-perigo">Excluir</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </main>
-
-<div th:replace="~{fragments/layout :: footer}"></div>
-<script th:src="@{/js/script.js}"></script>
 </body>
 </html>

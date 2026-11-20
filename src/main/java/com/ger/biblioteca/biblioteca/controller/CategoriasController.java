@@ -6,8 +6,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @Controller
 @RequestMapping("/categorias")
 public class CategoriasController {
@@ -18,31 +16,34 @@ public class CategoriasController {
         this.categoriasRepository = categoriasRepository;
     }
 
-    //http://localhost:8080/categorias
     @GetMapping
     public String listar(Model model) {
-        model.addAttribute("categorias", new Categorias());
-        return "biblioteca/categorias";
+        model.addAttribute("categorias", categoriasRepository.findAll());
+        return "categorias/lista";
     }
 
-    // Salva e redireciona direto para a página da lista
+    @GetMapping("/novo")
+    public String novaCategoria(Model model) {
+        model.addAttribute("categoria", new Categorias());
+        return "categorias/form";
+    }
+
     @PostMapping
-    public String cadastrarLivro(@ModelAttribute Categorias categorias) {
-        categoriasRepository.save(categorias);
-        return "redirect:/categorias/lista"; // Redireciona para /livros/lista
+    public String cadastrarCategoria(@ModelAttribute("categoria") Categorias categoria) {
+        categoriasRepository.save(categoria);
+        return "redirect:/categorias";
     }
 
-    // Leva para a lista de livros: http://localhost:8080/livros/lista
-    @GetMapping("/lista")
-    public String listarCategorias(Model model) {
-        List<Categorias> listaCategorias = categoriasRepository.findAll();
-        model.addAttribute("categorias",listaCategorias);
-        return "biblioteca/categoriasLista";
+    @GetMapping("/editar/{id}")
+    public String editarCategoria(@PathVariable Long id, Model model) {
+        Categorias categoria = categoriasRepository.findById(id).orElseThrow();
+        model.addAttribute("categoria", categoria);
+        return "categorias/form";
     }
 
     @GetMapping("/excluir/{id}")
-    public String excluirLivro ( @PathVariable Long id){
+    public String excluirCategoria(@PathVariable Long id) {
         categoriasRepository.deleteById(id);
-        return "redirect:/categorias/lista";
+        return "redirect:/categorias";
     }
 }

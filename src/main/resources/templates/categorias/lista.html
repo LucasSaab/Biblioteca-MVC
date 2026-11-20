@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Categorias - Sistema de Biblioteca</title>
+    <link rel="stylesheet" th:href="@{/css/estilo.css}">
+</head>
+<body>
+<nav>
+    <a th:href="@{/}">Início</a>
+    <a th:href="@{/livros}">Livros</a>
+    <a th:href="@{/autores}">Autores</a>
+    <a th:href="@{/categorias}">Categorias</a>
+</nav>
+<main>
+    <h1>Categorias</h1>
+    <a class="btn" th:href="@{/categorias/novo}">Nova categoria</a>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="categoria : ${categorias}">
+            <td th:text="${categoria.nome}"></td>
+            <td>
+                <a class="btn btn-sec" th:href="@{/categorias/editar/{id}(id=${categoria.id})}">Editar</a>
+                <a class="btn btn-perigo" th:href="@{/categorias/excluir/{id}(id=${categoria.id})}"
+                   onclick="return confirm('Tem certeza que deseja excluir esta categoria?');">Excluir</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <p>Total de categorias: <span th:text="${categorias.size()}">0</span></p>
+</main>
+</body>
+</html>

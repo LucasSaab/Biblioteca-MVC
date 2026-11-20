@@ -1,28 +1,63 @@
 <!doctype html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
+<!--
+  Como usar em cada página (exemplo: categorias):
+
+  <head th:replace="~{fragments/layout :: head('Categorias')}"></head>
+  <body>
+      <header th:replace="~{fragments/layout :: header}" th:with="ativo='categorias'"></header>
+      <main id="conteudo"> ... </main>
+      <footer th:replace="~{fragments/layout :: footer}"></footer>
+  </body>
+
+  Valores de "ativo": inicio | livros | categorias | autores
+  Ajuste "fragments/layout" para o caminho real deste arquivo em templates/.
+-->
+
+<!-- HEAD: charset, viewport (necessário para o layout responsivo), título e CSS -->
+<head th:fragment="head(titulo)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${titulo} + ' - Biblioteca de Lupinópolis'">Biblioteca de Lupinópolis</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
 <body>
 
-<div th:fragment="header">
-    <header class="app-header">
-        <div class="header-container">
-            <a th:href="@{/inicio}" class="header-logo">
-                <span>📚</span> Biblioteca de Lupinópolis
-            </a>
-            <nav class="header-nav">
-                <a th:href="@{/inicio}" class="nav-link">Início</a>
-                <a th:href="@{/livros}" class="nav-link">Livros</a>
-                <a th:href="@{/categorias}" class="nav-link">Categorias</a>
-                <a th:href="@{/autores}" class="nav-link">Autores</a>
-            </nav>
-        </div>
-    </header>
-</div>
+<!-- HEADER: th:fragment direto no <header> (sem <div> em volta) -->
+<header th:fragment="header" class="app-header">
+    <a href="#conteudo" class="skip-link">Pular para o conteúdo</a>
 
-<div th:fragment="footer">
-    <footer>
-        <p>Sistema de Biblioteca &copy; 2026</p>
-    </footer>
-</div>
+    <div class="header-container">
+        <a th:href="@{/inicio}" class="header-logo">
+            <span aria-hidden="true">📚</span> Biblioteca de Lupinópolis
+        </a>
+
+        <nav class="header-nav" aria-label="Navegação principal">
+            <a th:href="@{/inicio}" class="nav-link"
+               th:attr="aria-current=${ativo == 'inicio' ? 'page' : null}">Início</a>
+
+            <a th:href="@{/livros}" class="nav-link"
+               th:attr="aria-current=${ativo == 'livros' ? 'page' : null}">Livros</a>
+
+            <!-- Categorias: cobre /categorias (cadastro) e /categorias/lista -->
+            <a th:href="@{/categorias/lista}" class="nav-link"
+               th:attr="aria-current=${ativo == 'categorias' ? 'page' : null}">Categorias</a>
+
+            <a th:href="@{/autores}" class="nav-link"
+               th:attr="aria-current=${ativo == 'autores' ? 'page' : null}">Autores</a>
+        </nav>
+    </div>
+</header>
+
+<!-- FOOTER: também direto no <footer>, para grudar no fim da página -->
+<footer th:fragment="footer">
+    <div class="footer-container">
+        <p>Biblioteca de Lupinópolis</p>
+        <p>&copy; <span th:text="${#dates.year(#dates.createNow())}">2026</span></p>
+    </div>
+</footer>
 
 </body>
 </html>

@@ -1,27 +1,16 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Início - Biblioteca</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-</head>
+<head th:replace="~{biblioteca/fragmentos :: cabecalho('Início')}"></head>
 <body>
-<div th:replace="~{fragments/layout :: header}"></div>
-
+<nav th:replace="~{biblioteca/fragmentos :: menu}"></nav>
 <main>
-    <h1>Sistema de Biblioteca</h1>
-    <p style="text-align: center; color: #64748b; margin-bottom: 20px;">
-        Selecione uma das opções abaixo para gerenciar o acervo:
+    <h1>Biblioteca</h1>
+    <p>Escolha o que deseja gerenciar:</p>
+    <p>
+        <a class="btn" th:href="@{/livros/lista}">Livros</a>
+        <a class="btn" th:href="@{/autores/lista}">Autores</a>
+        <a class="btn" th:href="@{/categorias/lista}">Categorias</a>
     </p>
-
-    <nav>
-        <p><a th:href="@{/livros}">Cadastrar Livros</a></p>
-        <p><a th:href="@{/autores}">Cadastrar Autores</a></p>
-    </nav>
 </main>
-
-<div th:replace="~{fragments/layout :: footer}"></div>
-<script th:src="@{/js/script.js}"></script>
 </body>
 </html>

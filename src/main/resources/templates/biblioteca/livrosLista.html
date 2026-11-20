@@ -1,53 +1,43 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Livros</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-</head>
+<head th:replace="~{biblioteca/fragmentos :: cabecalho('Livros')}"></head>
 <body>
-<div th:replace="~{fragments/layout :: header}"></div>
-
+<nav th:replace="~{biblioteca/fragmentos :: menu}"></nav>
 <main>
-    <h1>Lista de Livros Cadastrados</h1>
+    <h1>Livros</h1>
+    <a class="btn" th:href="@{/livros}">Novo livro</a>
 
-    <table>
+    <p class="ok" th:if="${mensagem}" th:text="${mensagem}"></p>
+    <p class="erro" th:if="${erro}" th:text="${erro}"></p>
+
+    <p class="vazio" th:if="${#lists.isEmpty(livros)}">Nenhum livro cadastrado.</p>
+
+    <table th:unless="${#lists.isEmpty(livros)}">
         <thead>
         <tr>
-            <th>ID</th>
             <th>Título</th>
             <th>Autor</th>
             <th>ISBN</th>
-            <th>Ano de Publicação</th>
+            <th>Ano</th>
             <th>Ações</th>
         </tr>
         </thead>
         <tbody>
-        <!-- Itera sobre a lista de livros vinda do banco via JPA -->
         <tr th:each="l : ${livros}">
-            <td th:text="${l.id}">1</td>
-            <td th:text="${l.titulo}">Título Exemplo</td>
-            <td th:text="${l.autor}">Autor Exemplo</td>
-            <td th:text="${l.isbn}">ISBN Exemplo</td>
-            <td th:text="${l.anoPublicacao}">2024</td>
+            <td th:text="${l.titulo}"></td>
+            <td th:text="${l.autor}"></td>
+            <td th:text="${l.isbn}"></td>
+            <td th:text="${l.anoPublicacao}"></td>
             <td>
-                <!-- Passa o ID da entidade JPA na URL -->
-                <a th:href="@{/livros/excluir/{id}(id=${l.id})}">Excluir</a>
+                <a class="btn btn-sec" th:href="@{/livros/editar/{id}(id=${l.id})}">Editar</a>
+                <form th:action="@{/livros/excluir/{id}(id=${l.id})}" method="post"
+                      onsubmit="return confirm('Excluir este livro?');">
+                    <button type="submit" class="btn-perigo">Excluir</button>
+                </form>
             </td>
-        </tr>
-        <!-- Exibido apenas se a lista de livros estiver vazia -->
-        <tr th:if="${#lists.isEmpty(livros)}">
-            <td colspan="6">Nenhum livro cadastrado até o momento.</td>
         </tr>
         </tbody>
     </table>
-
-    <br>
-    <a th:href="@{/livros}">Voltar para o cadastro de livros</a>
 </main>
-
-<div th:replace="~{fragments/layout :: footer}"></div>
-<script th:src="@{/js/script.js}"></script>
 </body>
 </html>

@@ -19,7 +19,6 @@ public class Livro {
     private String isbn;
     private Integer anoPublicacao;
 
-    // Construtor padrão sem argumentos (OBRIGATÓRIO para o JPA)
     public Livro() {
     }
 
@@ -30,7 +29,6 @@ public class Livro {
         this.anoPublicacao = anoPublicacao;
     }
 
-    // Getters e Setters
     public Long getId() {
         return id;
     }

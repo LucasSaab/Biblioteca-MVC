@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Autores - Sistema de Biblioteca</title>
+    <link rel="stylesheet" th:href="@{/css/estilo.css}">
+</head>
+<body>
+<nav>
+    <a th:href="@{/}">Início</a>
+    <a th:href="@{/livros}">Livros</a>
+    <a th:href="@{/autores}">Autores</a>
+    <a th:href="@{/categorias}">Categorias</a>
+</nav>
+<main>
+    <h1>Autores</h1>
+    <a class="btn" th:href="@{/autores/novo}">Novo autor</a>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Nacionalidade</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="autor : ${autores}">
+            <td th:text="${autor.nome}"></td>
+            <td th:text="${autor.nacionalidade}"></td>
+            <td>
+                <a class="btn btn-sec" th:href="@{/autores/editar/{id}(id=${autor.id})}">Editar</a>
+                <a class="btn btn-perigo" th:href="@{/autores/excluir/{id}(id=${autor.id})}"
+                   onclick="return confirm('Tem certeza que deseja excluir este autor?');">Excluir</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <p>Total de autores: <span th:text="${autores.size()}">0</span></p>
+</main>
+</body>
+</html>

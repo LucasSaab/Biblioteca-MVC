@@ -1,195 +1,536 @@
-/* Reset Básico */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* ==========================================================================
+   Biblioteca de Lupinópolis — folha de estilo
+   Verde-abeto (lâmpada de leitura) + latão (marcador de página) sobre papel frio.
+   Fontes: Literata (títulos, feita para leitura) e Atkinson Hyperlegible (interface).
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Literata:opsz,wght@7..72,600;7..72,700&display=swap');
+
+/* ---------- Tokens ---------- */
+:root {
+    --bg: #eef1ef;
+    --surface: #ffffff;
+    --surface-alt: #f3f6f4;
+    --ink: #1b2623;
+    --muted: #55645f;
+    --line: #d3dbd8;            /* divisórias decorativas */
+    --line-strong: #6b7a75;     /* bordas de controles (contraste ≥ 3:1) */
+
+    --spruce: #1d3b34;          /* cabeçalho */
+    --primary: #1f6b57;
+    --primary-dark: #175646;
+    --brass: #c8943e;           /* marcador de página */
+    --brass-soft: #e0b055;      /* botão de destaque */
+    --danger: #b3261e;
+    --danger-dark: #8f1d17;
+
+    --font-body: 'Atkinson Hyperlegible', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    --font-display: 'Literata', Georgia, 'Times New Roman', serif;
+
+    --radius: 8px;
+    --header-h: 60px;
+    --content-w: 1100px;
+    --form-w: 520px;
 }
+
+/* ---------- Reset ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; padding: 0; }
+
+html { -webkit-text-size-adjust: 100%; }
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background-color: #f1f5f9;
-    color: #0f172a;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.55;
+    background: var(--bg);
+    color: var(--ink);
     min-height: 100vh;
+    min-height: 100dvh;
     display: flex;
     flex-direction: column;
-    padding-bottom: 60px;
 }
 
-/* Header Estilo Business Navbar */
+/* ---------- Acessibilidade ---------- */
+:focus-visible {
+    outline: 3px solid var(--primary);
+    outline-offset: 2px;
+}
+
+.skip-link {
+    position: absolute;
+    left: 1rem;
+    top: -100px;
+    background: var(--brass-soft);
+    color: var(--ink);
+    padding: 10px 16px;
+    border-radius: 0 0 var(--radius) var(--radius);
+    font-weight: 700;
+    text-decoration: none;
+    z-index: 2000;
+}
+.skip-link:focus { top: 0; }
+
+.sr-only {
+    position: absolute;
+    width: 1px; height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
+/* ---------- Cabeçalho ---------- */
 .app-header {
-    background-color: #1e293b;
-    color: #ffffff;
+    background: var(--spruce);
+    color: #fff;
     padding: 0 1.5rem;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    min-height: var(--header-h);
     position: sticky;
     top: 0;
     z-index: 1000;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
 }
 
 .header-container {
-    width: 100%;
-    max-width: 1100px;
+    max-width: var(--content-w);
     margin: 0 auto;
+    min-height: var(--header-h);
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: stretch;
+    gap: 8px 24px;
 }
 
 .header-logo {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: #ffffff !important;
-    text-decoration: none;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #fff;
+    text-decoration: none;
 }
 
 .header-nav {
     display: flex;
-    align-items: center;
-    gap: 6px;
+    align-items: stretch;
+    gap: 2px;
 }
 
 .nav-link {
-    color: #cbd5e1 !important;
-    background: transparent !important;
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 0 14px;
+    min-height: var(--header-h);
+    color: #d5e0dc;
     text-decoration: none;
-    padding: 8px 14px;
-    border-radius: 6px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    transition: all 0.2s ease;
+    font-size: 0.95rem;
+    font-weight: 700;
+    transition: background-color 0.15s ease, color 0.15s ease;
 }
 
 .nav-link:hover {
-    color: #ffffff !important;
-    background-color: rgba(255, 255, 255, 0.08) !important;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.08);
 }
 
+/* Página atual: marcador de livro pendurado na borda superior */
+.nav-link.active,
+.nav-link[aria-current="page"] {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+}
+.nav-link.active::after,
+.nav-link[aria-current="page"]::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 12px;
+    height: 14px;
+    transform: translateX(-50%);
+    background: var(--brass);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 72%, 0 100%);
+}
+
+.header-nav :focus-visible,
+.header-logo:focus-visible,
+.header-search :focus-visible {
+    outline-color: #fff;
+    outline-offset: -3px;
+}
+
+/* Ação de destaque no cabeçalho (ex.: "Novo empréstimo") */
 .btn-header-cta {
-    background-color: #ec4899 !important;
-    color: #ffffff !important;
-    text-decoration: none;
-    padding: 8px 16px;
-    border-radius: 6px;
-    font-size: 0.85rem;
-    font-weight: 600;
+    align-self: center;
     margin-left: 10px;
-    transition: all 0.2s ease;
-    box-shadow: 0 2px 4px rgba(236, 72, 153, 0.3);
+    padding: 9px 16px;
+    background: var(--brass-soft);
+    color: var(--ink);
+    border-radius: var(--radius);
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background-color 0.15s ease;
 }
+.btn-header-cta:hover { background: #ebc272; }
 
-.btn-header-cta:hover {
-    background-color: #db2777 !important;
-    transform: translateY(-1px);
+/* Busca no cabeçalho (opcional) */
+.header-search {
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
+.header-search input {
+    min-height: 38px;
+    width: 200px;
+    padding: 6px 12px;
+    font: inherit;
+    font-size: 0.9rem;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    border-radius: var(--radius);
+}
+.header-search input::placeholder { color: #b9c8c3; }
 
-/* Contentor Principal */
+/* ---------- Conteúdo principal ---------- */
 main {
-    max-width: 500px;
-    width: 90%;
+    width: calc(100% - 2rem);
+    max-width: var(--form-w);
     margin: 40px auto;
-    background: #ffffff;
     padding: 32px;
+    background: var(--surface);
+    border: 1px solid var(--line);
     border-radius: 12px;
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
-    border: 1px solid #e2e8f0;
+    box-shadow: 0 8px 24px -12px rgba(29, 59, 52, 0.25);
+}
+
+/* Páginas de listagem ganham a largura total do cabeçalho */
+main.wide,
+main:has(table) {
+    max-width: var(--content-w);
+    overflow-x: auto;
 }
 
 h1 {
-    font-size: 1.5rem;
+    font-family: var(--font-display);
+    font-size: 1.6rem;
     font-weight: 700;
-    color: #0f172a;
+    line-height: 1.25;
+    color: var(--ink);
     margin-bottom: 24px;
-    text-align: center;
 }
 
-/* Formulários */
-form {
+h2 {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 28px 0 12px;
+}
+
+p + p { margin-top: 12px; }
+
+/* Título + ação (ex.: "Livros" ... "Cadastrar livro") */
+.page-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px 16px;
+    margin-bottom: 24px;
+}
+.page-head h1 { margin-bottom: 0; }
+
+/* Links dentro do conteúdo */
+main a:not(.btn) {
+    color: var(--primary);
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+main a:not(.btn):hover { color: var(--primary-dark); }
+
+/* Links soltos de páginas de confirmação ("Voltar para a lista") */
+main > a:not(.btn),
+.link-voltar {
+    display: inline-block;
+    margin-top: 16px;
+}
+
+/* ---------- Formulários ---------- */
+main form {
     display: flex;
     flex-direction: column;
-    gap: 18px;
+    gap: 20px;
 }
 
-form p {
+main form p,
+.field {
     display: flex;
     flex-direction: column;
     gap: 6px;
 }
 
 label {
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: #334155;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--ink);
+}
+label.required::after {
+    content: " (obrigatório)";
+    font-weight: 400;
+    color: var(--muted);
+}
+
+.hint {
+    font-size: 0.85rem;
+    color: var(--muted);
 }
 
 input[type="text"],
-input[type="number"] {
+input[type="number"],
+input[type="email"],
+input[type="password"],
+input[type="search"],
+input[type="date"],
+select,
+textarea {
     width: 100%;
+    min-height: 44px;
     padding: 10px 14px;
-    font-size: 0.95rem;
-    border: 1px solid #cbd5e1;
-    border-radius: 6px;
-    background-color: #f8fafc;
-    color: #0f172a;
-    transition: all 0.2s ease;
+    font: inherit;
+    font-size: 1rem;           /* evita zoom automático no iOS */
+    color: var(--ink);
+    background: #fff;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-input[type="text"]:focus,
-input[type="number"]:focus {
+textarea { min-height: 120px; resize: vertical; }
+
+input:focus,
+select:focus,
+textarea:focus {
     outline: none;
-    border-color: #2563eb;
-    background-color: #ffffff;
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(31, 107, 87, 0.3);
 }
 
-button[type="submit"] {
-    width: 100%;
-    margin-top: 8px;
-    padding: 12px;
-    background-color: #2563eb;
-    color: #ffffff;
-    font-size: 0.95rem;
-    font-weight: 600;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
+/* Erro: cor + texto (nunca só cor) */
+input.is-invalid,
+select.is-invalid,
+textarea.is-invalid,
+[aria-invalid="true"] {
+    border-color: var(--danger);
+}
+input.is-invalid:focus,
+select.is-invalid:focus,
+textarea.is-invalid:focus,
+[aria-invalid="true"]:focus {
+    box-shadow: 0 0 0 3px rgba(179, 38, 30, 0.25);
 }
 
-button[type="submit"]:hover {
-    background-color: #1d4ed8;
+.field-error,
+.error {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--danger);
 }
 
-/* Links em Páginas de Confirmação e Início */
-main a:not(.btn-header-cta) {
-    display: inline-block;
-    margin-top: 15px;
-    color: #2563eb;
+.form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 4px;
+}
+
+/* ---------- Botões ---------- */
+button[type="submit"],
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 10px 20px;
+    font: inherit;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.2;
     text-decoration: none;
-    font-weight: 600;
+    color: #fff;
+    background: var(--primary);
+    border: 1px solid transparent;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
 }
 
-main a:not(.btn-header-cta):hover {
-    text-decoration: underline;
+button[type="submit"]:hover,
+.btn:hover { background: var(--primary-dark); }
+
+/* Em formulários, o envio ocupa a largura toda */
+main form > button[type="submit"] { width: 100%; }
+.form-actions > button[type="submit"] { flex: 1 1 auto; }
+
+.btn-secondary {
+    color: var(--ink);
+    background: #fff;
+    border-color: var(--line-strong);
+}
+.btn-secondary:hover { background: var(--surface-alt); }
+
+.btn-danger { background: var(--danger); }
+.btn-danger:hover { background: var(--danger-dark); }
+
+.btn-sm { min-height: 36px; padding: 6px 12px; font-size: 0.9rem; }
+
+button:disabled,
+.btn[aria-disabled="true"] {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
-/* Rodapé */
-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
+/* ---------- Tabelas ---------- */
+table {
     width: 100%;
-    background-color: #ffffff;
-    border-top: 1px solid #e2e8f0;
-    text-align: center;
-    padding: 14px;
-    color: #64748b;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+th {
+    text-align: left;
+    font-weight: 700;
+    padding: 12px 16px;
+    background: var(--surface-alt);
+    border-bottom: 2px solid var(--line-strong);
+    white-space: nowrap;
+}
+
+td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: middle;
+}
+
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:hover { background: #f6f9f7; }
+
+.acoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+/* ---------- Avisos ---------- */
+.alert {
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    border: 1px solid;
+    border-radius: var(--radius);
+    font-weight: 700;
+}
+.alert-success { background: #e3f2e9; border-color: #1d6b3a; color: #124c29; }
+.alert-error   { background: #fbe6e4; border-color: var(--danger); color: #7d1a15; }
+
+/* ---------- Status (texto + cor) ---------- */
+.badge {
+    display: inline-block;
+    padding: 2px 10px;
     font-size: 0.85rem;
-    z-index: 1000;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.03);
+    font-weight: 700;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+.badge-ok   { background: #dff0e6; color: #14532d; }
+.badge-warn { background: #fbebc8; color: #6b4400; }
+.badge-late { background: #fadcd9; color: #8c1d18; }
+
+/* ---------- Estado vazio ---------- */
+.empty-state {
+    text-align: center;
+    padding: 40px 16px;
+    color: var(--muted);
+}
+.empty-state .btn { margin-top: 16px; }
+
+/* ---------- Rodapé ---------- */
+footer {
+    margin-top: auto;           /* gruda no fim da tela sem position: fixed */
+    padding: 20px 1.5rem;
+    background: var(--surface);
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.footer-container {
+    max-width: var(--content-w);
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px 24px;
+    text-align: left;
+}
+
+/* ---------- Telas pequenas ---------- */
+@media (max-width: 720px) {
+    .app-header { padding: 0 1rem; }
+
+    .header-container {
+        flex-wrap: wrap;
+        align-items: center;
+        min-height: 0;
+    }
+    .header-logo { min-height: 52px; }
+
+    /* Navegação vira uma faixa rolável abaixo do logo */
+    .header-nav {
+        order: 3;
+        width: 100%;
+        margin: 0 -1rem;
+        padding: 0 1rem;
+        width: calc(100% + 2rem);
+        overflow-x: auto;
+        border-top: 1px solid rgba(255, 255, 255, 0.12);
+    }
+    .nav-link { min-height: 48px; white-space: nowrap; }
+
+    /* Marcador vira sublinhado de latão */
+    .nav-link.active::after,
+    .nav-link[aria-current="page"]::after {
+        top: auto;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        transform: none;
+        clip-path: none;
+    }
+
+    .header-search { order: 2; flex: 1; }
+    .header-search input { width: 100%; }
+
+    main {
+        margin: 20px auto;
+        padding: 20px;
+    }
+    h1 { font-size: 1.4rem; }
+
+    .footer-container { flex-direction: column; }
+}
+
+/* ---------- Movimento reduzido ---------- */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        transition: none !important;
+        animation: none !important;
+    }
 }

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Livros - Sistema de Biblioteca</title>
+    <link rel="stylesheet" th:href="@{/css/estilo.css}">
+</head>
+<body>
+<nav>
+    <a th:href="@{/}">Início</a>
+    <a th:href="@{/livros}">Livros</a>
+    <a th:href="@{/autores}">Autores</a>
+    <a th:href="@{/categorias}">Categorias</a>
+</nav>
+<main>
+    <h1>Livros</h1>
+    <a class="btn" th:href="@{/livros/novo}">Novo livro</a>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Título</th>
+            <th>Autor</th>
+            <th>ISBN</th>
+            <th>Ano</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="livro : ${livros}">
+            <td th:text="${livro.titulo}"></td>
+            <td th:text="${livro.autor}"></td>
+            <td th:text="${livro.isbn}"></td>
+            <td th:text="${livro.anoPublicacao}"></td>
+            <td>
+                <a class="btn btn-sec" th:href="@{/livros/editar/{id}(id=${livro.id})}">Editar</a>
+                <a class="btn btn-perigo" th:href="@{/livros/excluir/{id}(id=${livro.id})}"
+                   onclick="return confirm('Tem certeza que deseja excluir este livro?');">Excluir</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <p>Total de livros: <span th:text="${livros.size()}">0</span></p>
+</main>
+</body>
+</html>

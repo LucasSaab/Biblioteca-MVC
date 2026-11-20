@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Categoria - Sistema de Biblioteca</title>
+    <link rel="stylesheet" th:href="@{/css/estilo.css}">
+</head>
+<body>
+<nav>
+    <a th:href="@{/}">Início</a>
+    <a th:href="@{/livros}">Livros</a>
+    <a th:href="@{/autores}">Autores</a>
+    <a th:href="@{/categorias}">Categorias</a>
+</nav>
+<main>
+    <h1 th:text="${categoria.id == null} ? 'Cadastrar Categoria' : 'Editar Categoria'">Cadastrar Categoria</h1>
+
+    <form th:object="${categoria}" action="/categorias" method="post">
+        <!-- id vazio = cadastro (insert); id preenchido = edição (update) -->
+        <input type="hidden" th:field="*{id}">
+
+        <label>Nome:</label>
+        <input type="text" th:field="*{nome}">
+
+        <div class="botoes">
+            <button type="submit">Salvar</button>
+            <a class="btn btn-sec" th:href="@{/categorias}">Cancelar</a>
+        </div>
+    </form>
+</main>
+</body>
+</html>

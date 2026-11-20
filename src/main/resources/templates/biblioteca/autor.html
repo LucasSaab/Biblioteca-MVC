@@ -1,34 +1,27 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastrar Autor</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-</head>
+<head th:replace="~{biblioteca/fragmentos :: cabecalho('Autor')}"></head>
 <body>
-<div th:replace="~{fragments/layout :: header}"></div>
-
+<nav th:replace="~{biblioteca/fragmentos :: menu}"></nav>
 <main>
-    <h1>Cadastrar Autor</h1>
+    <h1 th:text="${autor.id == null} ? 'Novo autor' : 'Editar autor'">Novo autor</h1>
+
+    <p class="erro" th:if="${erro}" th:text="${erro}"></p>
+
     <form th:action="@{/autores}" th:object="${autor}" method="post">
-        <p>
-            <label>Nome do autor:</label>
-            <input type="text" th:field="*{nome}" required />
-        </p>
-        <p>
-            <label>Nacionalidade do autor:</label>
-            <input type="text" th:field="*{nacionalidade}" required />
-        </p>
-        <p>
-            <label>Livros publicados:</label>
-            <input type="text" th:field="*{livrosPublicados}" />
-        </p>
-        <button type="submit">Cadastrar</button>
+        <input type="hidden" th:field="*{id}">
+
+        <label for="nome">Nome</label>
+        <input type="text" id="nome" th:field="*{nome}">
+
+        <label for="nacionalidade">Nacionalidade</label>
+        <input type="text" id="nacionalidade" th:field="*{nacionalidade}">
+
+        <div class="botoes">
+            <button type="submit" th:text="${autor.id == null} ? 'Cadastrar' : 'Salvar alterações'">Cadastrar</button>
+            <a class="btn btn-sec" th:href="@{/autores/lista}">Cancelar</a>
+        </div>
     </form>
 </main>
-
-<div th:replace="~{fragments/layout :: footer}"></div>
-<script th:src="@{/js/script.js}"></script>
 </body>
 </html>
