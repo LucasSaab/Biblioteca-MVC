@@ -1,41 +1,54 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Categorias - Sistema de Biblioteca</title>
-    <link rel="stylesheet" th:href="@{/css/estilo.css}">
-</head>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Categorias')}"></head>
 <body>
-<nav>
-    <a th:href="@{/}">Início</a>
-    <a th:href="@{/livros}">Livros</a>
-    <a th:href="@{/autores}">Autores</a>
-    <a th:href="@{/categorias}">Categorias</a>
-</nav>
-<main>
-    <h1>Categorias</h1>
-    <a class="btn" th:href="@{/categorias/novo}">Nova categoria</a>
+<header th:replace="~{fragments/layout :: header}" th:with="ativo='categorias'"></header>
 
-    <table>
-        <thead>
-        <tr>
-            <th>Nome</th>
-            <th>Ações</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="categoria : ${categorias}">
-            <td th:text="${categoria.nome}"></td>
-            <td>
-                <a class="btn btn-sec" th:href="@{/categorias/editar/{id}(id=${categoria.id})}">Editar</a>
-                <a class="btn btn-perigo" th:href="@{/categorias/excluir/{id}(id=${categoria.id})}"
-                   onclick="return confirm('Tem certeza que deseja excluir esta categoria?');">Excluir</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+<main id="conteudo" class="container">
+    <section class="ficha ficha-enter">
+        <div class="ficha-head">
+            <div>
+                <h1 class="ficha-title">Categorias</h1>
+                <p class="ficha-meta">Total de categorias: <strong th:text="${categorias.size()}">0</strong></p>
+            </div>
+            <a class="btn btn-primary" th:href="@{/categorias/novo}">Cadastrar categoria</a>
+        </div>
 
-    <p>Total de categorias: <span th:text="${categorias.size()}">0</span></p>
+        <div class="ficha-body" th:if="${#lists.isEmpty(categorias)}">
+            <div class="empty-state">
+                <p class="empty-title">Nenhuma categoria cadastrada ainda.</p>
+                <p class="empty-text">Use o botão Cadastrar categoria para incluir a primeira.</p>
+            </div>
+        </div>
+
+        <div class="ficha-body ficha-body-flush" th:unless="${#lists.isEmpty(categorias)}">
+            <div class="table-wrapper">
+                <table class="table">
+                    <caption class="sr-only">Categorias cadastradas</caption>
+                    <thead>
+                    <tr>
+                        <th scope="col">Nome</th>
+                        <th scope="col" class="th-actions">Ações</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="categoria : ${categorias}">
+                        <td data-label="Nome" class="cell-title" th:text="${categoria.nome}"></td>
+                        <td class="cell-actions">
+                            <a class="btn btn-secondary btn-sm" th:href="@{/categorias/editar/{id}(id=${categoria.id})}"
+                               th:attr="aria-label=|Editar ${categoria.nome}|">Editar</a>
+                            <a class="btn btn-danger btn-sm" th:href="@{/categorias/excluir/{id}(id=${categoria.id})}"
+                               th:attr="aria-label=|Excluir ${categoria.nome}|"
+                               onclick="return confirm('Tem certeza que deseja excluir esta categoria?');">Excluir</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
 </main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
 </body>
 </html>

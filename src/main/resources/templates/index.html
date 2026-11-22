@@ -1,25 +1,42 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Sistema de Biblioteca</title>
-    <link rel="stylesheet" th:href="@{/css/estilo.css}">
-</head>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Início')}"></head>
 <body>
-<nav>
-    <a th:href="@{/}">Início</a>
-    <a th:href="@{/livros}">Livros</a>
-    <a th:href="@{/autores}">Autores</a>
-    <a th:href="@{/categorias}">Categorias</a>
-</nav>
-<main>
-    <h1>Sistema de Biblioteca</h1>
-    <p>Bem-vindo! Escolha um módulo:</p>
-    <p>
-        <a class="btn" th:href="@{/livros}">Livros</a>
-        <a class="btn" th:href="@{/autores}">Autores</a>
-        <a class="btn" th:href="@{/categorias}">Categorias</a>
-    </p>
+<header th:replace="~{fragments/layout :: header}" th:with="ativo='inicio'"></header>
+
+<main id="conteudo" class="container">
+    <section class="hero">
+        <h1>Biblioteca de Lupinópolis</h1>
+        <p>Cadastre e organize os livros, os autores e as categorias do acervo.</p>
+    </section>
+
+    <section class="module-grid" aria-label="Módulos do sistema">
+        <article class="ficha">
+            <div class="ficha-head"><h2 class="ficha-title">Livros</h2></div>
+            <div class="ficha-body">
+                <p>Título, autor, ISBN e ano de publicação de cada exemplar.</p>
+                <a class="btn btn-primary" th:href="@{/livros}">Ver livros</a>
+            </div>
+        </article>
+
+        <article class="ficha">
+            <div class="ficha-head"><h2 class="ficha-title">Autores</h2></div>
+            <div class="ficha-body">
+                <p>Nome e nacionalidade de quem escreveu as obras.</p>
+                <a class="btn btn-primary" th:href="@{/autores}">Ver autores</a>
+            </div>
+        </article>
+
+        <article class="ficha">
+            <div class="ficha-head"><h2 class="ficha-title">Categorias</h2></div>
+            <div class="ficha-body">
+                <p>Os assuntos que organizam o acervo.</p>
+                <a class="btn btn-primary" th:href="@{/categorias}">Ver categorias</a>
+            </div>
+        </article>
+    </section>
 </main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
 </body>
 </html>

@@ -1,35 +1,40 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Autor - Sistema de Biblioteca</title>
-    <link rel="stylesheet" th:href="@{/css/estilo.css}">
-</head>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Autor')}"></head>
 <body>
-<nav>
-    <a th:href="@{/}">Início</a>
-    <a th:href="@{/livros}">Livros</a>
-    <a th:href="@{/autores}">Autores</a>
-    <a th:href="@{/categorias}">Categorias</a>
-</nav>
-<main>
-    <h1 th:text="${autor.id == null} ? 'Cadastrar Autor' : 'Editar Autor'">Cadastrar Autor</h1>
+<header th:replace="~{fragments/layout :: header}" th:with="ativo='autores'"></header>
 
-    <form th:object="${autor}" action="/autores" method="post">
-        <!-- id vazio = cadastro (insert); id preenchido = edição (update) -->
-        <input type="hidden" th:field="*{id}">
-
-        <label>Nome:</label>
-        <input type="text" th:field="*{nome}">
-
-        <label>Nacionalidade:</label>
-        <input type="text" th:field="*{nacionalidade}">
-
-        <div class="botoes">
-            <button type="submit">Salvar</button>
-            <a class="btn btn-sec" th:href="@{/autores}">Cancelar</a>
+<main id="conteudo" class="container container-narrow">
+    <section class="ficha ficha-form ficha-enter">
+        <div class="ficha-head">
+            <h1 class="ficha-title" th:text="${autor.id == null} ? 'Cadastrar autor' : 'Editar autor'">Cadastrar autor</h1>
         </div>
-    </form>
+
+        <div class="ficha-body">
+            <form class="form" th:object="${autor}" action="/autores" method="post">
+                <!-- id vazio = cadastro (insert); id preenchido = edição (update) -->
+                <input type="hidden" th:field="*{id}">
+
+                <div class="field">
+                    <label for="nome">Nome</label>
+                    <input type="text" id="nome" th:field="*{nome}" required>
+                </div>
+
+                <div class="field">
+                    <label for="nacionalidade">Nacionalidade</label>
+                    <input type="text" id="nacionalidade" th:field="*{nacionalidade}">
+                </div>
+
+                <div class="form-actions">
+                    <a class="btn btn-ghost" th:href="@{/autores}">Cancelar</a>
+                    <button type="submit" class="btn btn-primary"
+                            th:text="${autor.id == null} ? 'Cadastrar autor' : 'Salvar alterações'">Cadastrar autor</button>
+                </div>
+            </form>
+        </div>
+    </section>
 </main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
 </body>
 </html>

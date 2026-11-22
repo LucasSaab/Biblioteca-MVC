@@ -1,43 +1,56 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Autores - Sistema de Biblioteca</title>
-    <link rel="stylesheet" th:href="@{/css/estilo.css}">
-</head>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Autores')}"></head>
 <body>
-<nav>
-    <a th:href="@{/}">Início</a>
-    <a th:href="@{/livros}">Livros</a>
-    <a th:href="@{/autores}">Autores</a>
-    <a th:href="@{/categorias}">Categorias</a>
-</nav>
-<main>
-    <h1>Autores</h1>
-    <a class="btn" th:href="@{/autores/novo}">Novo autor</a>
+<header th:replace="~{fragments/layout :: header}" th:with="ativo='autores'"></header>
 
-    <table>
-        <thead>
-        <tr>
-            <th>Nome</th>
-            <th>Nacionalidade</th>
-            <th>Ações</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="autor : ${autores}">
-            <td th:text="${autor.nome}"></td>
-            <td th:text="${autor.nacionalidade}"></td>
-            <td>
-                <a class="btn btn-sec" th:href="@{/autores/editar/{id}(id=${autor.id})}">Editar</a>
-                <a class="btn btn-perigo" th:href="@{/autores/excluir/{id}(id=${autor.id})}"
-                   onclick="return confirm('Tem certeza que deseja excluir este autor?');">Excluir</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+<main id="conteudo" class="container">
+    <section class="ficha ficha-enter">
+        <div class="ficha-head">
+            <div>
+                <h1 class="ficha-title">Autores</h1>
+                <p class="ficha-meta">Total de autores: <strong th:text="${autores.size()}">0</strong></p>
+            </div>
+            <a class="btn btn-primary" th:href="@{/autores/novo}">Cadastrar autor</a>
+        </div>
 
-    <p>Total de autores: <span th:text="${autores.size()}">0</span></p>
+        <div class="ficha-body" th:if="${#lists.isEmpty(autores)}">
+            <div class="empty-state">
+                <p class="empty-title">Nenhum autor cadastrado ainda.</p>
+                <p class="empty-text">Use o botão Cadastrar autor para incluir o primeiro.</p>
+            </div>
+        </div>
+
+        <div class="ficha-body ficha-body-flush" th:unless="${#lists.isEmpty(autores)}">
+            <div class="table-wrapper">
+                <table class="table">
+                    <caption class="sr-only">Autores cadastrados</caption>
+                    <thead>
+                    <tr>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Nacionalidade</th>
+                        <th scope="col" class="th-actions">Ações</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="autor : ${autores}">
+                        <td data-label="Nome" class="cell-title" th:text="${autor.nome}"></td>
+                        <td data-label="Nacionalidade" th:text="${autor.nacionalidade ?: '—'}"></td>
+                        <td class="cell-actions">
+                            <a class="btn btn-secondary btn-sm" th:href="@{/autores/editar/{id}(id=${autor.id})}"
+                               th:attr="aria-label=|Editar ${autor.nome}|">Editar</a>
+                            <a class="btn btn-danger btn-sm" th:href="@{/autores/excluir/{id}(id=${autor.id})}"
+                               th:attr="aria-label=|Excluir ${autor.nome}|"
+                               onclick="return confirm('Tem certeza que deseja excluir este autor?');">Excluir</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
 </main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
 </body>
 </html>
